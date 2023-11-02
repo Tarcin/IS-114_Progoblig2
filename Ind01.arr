@@ -9,11 +9,11 @@ flag-colors = table: country, color1, color2, color3
   row: "faroe islands", "white", "royal-blue", "red"
 end
 
-fun find-row(country-name :: String, index :: Number):
+fun find-row(country :: String, index :: Number):
   ask:
-    | string-equal(flag-colors.row-n(index)["country"], country-name) then: flag-colors.row-n(index)
+    | string-equal(flag-colors.row-n(index)["country"], country) then: flag-colors.row-n(index)
     | (index + 1) >= flag-colors.length() then: false
-    | otherwise: find-row(country-name, index + 1)
+    | otherwise: find-row(country, index + 1)
  end
 end
 
