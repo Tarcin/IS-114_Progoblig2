@@ -1,12 +1,12 @@
 include tables
 
 flag-colors = table: country, color1, color2, color3
-row: "Norway", "crimson", "white", "navy"
-row: "Sweden", "royal-blue", "gold", none
-row: "Denmark", "red", "white", none
-row: "Finland", "white", "royal-blue", none
-row: "Iceland", "royal-blue", "white", "red"
-row: "Faroe Islands", "white", "royal-blue", "red"
+row: "norway", "crimson", "white", "navy"
+row: "sweden", "royal-blue", "gold", none
+row: "denmark", "red", "white", none
+row: "finland", "white", "royal-blue", none
+row: "iceland", "royal-blue", "white", "red"
+row: "faroe islands", "white", "royal-blue", "red"
 end
 
 fun find-row(country-name :: String, index :: Number) -> Row:
@@ -19,7 +19,7 @@ end
 
 
 fun create-nordic-flag(flag-country :: String) -> Image:
-  country-row = find-row(flag-country, 0)
+  country-row = find-row(string-to-lower(flag-country), 0)
   if country-row["color3"] == none:
     cross = overlay-xy(rectangle(220, 30, "solid", country-row["color2"]), 65, -65, rectangle(30, 160, "solid", country-row["color2"]))
     overlay(cross, rectangle(220, 160, "solid", country-row["color1"]))
