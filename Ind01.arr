@@ -18,8 +18,8 @@ fun find-row(country :: String, index :: Number):
 end
 
 
-fun create-nordic-flag(flag-country :: String):
-  country-row = find-row(string-to-lower(flag-country), 0)
+fun create-nordic-flag(country :: String):
+  country-row = find-row(string-to-lower(country), 0)
   ask: 
     | country-row == false then:
       "Country not found in list. Try: Denmark, Norway, Sweden, Finland, Iceland or Faroe Islands"
