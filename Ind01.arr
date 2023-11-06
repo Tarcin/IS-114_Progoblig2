@@ -1,6 +1,6 @@
 include tables
 
-flag-colors = table: country, color1, color2, color3
+flag-data = table: country, color1, color2, color3
   row: "norway", "crimson", "white", "navy"
   row: "sweden", "royal-blue", "gold", none
   row: "denmark", "red", "white", none
@@ -9,28 +9,29 @@ flag-colors = table: country, color1, color2, color3
   row: "faroe islands", "white", "royal-blue", "red"
 end
 
-fun find-row(country :: String, index :: Number):
-doc: "code finds and returns the row with the matching country name"
+fun find-row(country-list :: List, country :: String):
+doc: "code finds and returns the row with the matching country name, raises an error if it can't find the country in the table"
   ask:
-    | string-equal(flag-colors.row-n(index)["country"], country) then: flag-colors.row-n(index)
-    | (index + 1) >= flag-colors.length() then: false
-    | otherwise: find-row(country, index + 1)
- end
-end
-
-
-fun create-nordic-flag(country :: String):
-doc: "code checks if find-row even returned a row. If it does it checks if it is a double or single cross flag and runs the corresponding code"
-  country-row = find-row(string-to-lower(country), 0)
-  ask: 
-    | country-row == false then:
-      "Country not found in list. Try: Denmark, Norway, Sweden, Finland, Iceland or Faroe Islands"
-    | country-row["color3"] == none then:
-      cross = overlay-xy(rectangle(220,30,"solid",country-row["color2"]),65,-65,rectangle(30, 160,"solid",country-row["color2"]))
-      overlay(cross, rectangle(220, 160, "solid", country-row["color1"]))
-    | otherwise:
-      cross1 = overlay-xy(rectangle(220, 40, "solid", country-row["color2"]), 60, -60, rectangle(40, 160, "solid", country-row["color2"])) 
-      cross2 = overlay-xy(rectangle(220, 20, "solid", country-row["color3"]), 70, -70, rectangle(20, 160, "solid", country-row["color3"]))
-      overlay(overlay(cross2, cross1), rectangle(220, 160, "solid", country-row["color1"]))
+    |  country-list == empty then: raise("Country not found in list. Try: Denmark, Norway, Sweden, Finland, Iceland or Faroe Islands")
+    |  country-list.first["country"] == country then: country-list.first
+    |  otherwise: find-row(country-list.rest, country)
   end
 end
+
+fun create-nordic-flag(country :: String):
+doc: "Uses find-row() to find the row for the flag being searched for. Checks if it is a double or single cross flag and runs the corresponding code"
+  country-row = find-row(flag-data.all-rows(), string-to-lower(country))
+  if  country-row["color3"] == none:
+    cross = overlay-xy(rectangle(220,30,"solid",country-row["color2"]),65,-65,rectangle(30, 160,"solid",country-row["color2"]))
+    overlay(cross, rectangle(220, 160, "solid", country-row["color1"]))
+  else:
+    cross1 = overlay-xy(rectangle(220, 40, "solid", country-row["color2"]), 60, -60, rectangle(40, 160, "solid", country-row["color2"])) 
+    cross2 = overlay-xy(rectangle(220, 20, "solid", country-row["color3"]), 70, -70, rectangle(20, 160, "solid", country-row["color3"]))
+    overlay(overlay(cross2, cross1), rectangle(220, 160, "solid", country-row["color1"]))
+  end
+end
+
+
+
+
+
