@@ -10,6 +10,7 @@ flag-colors = table: country, color1, color2, color3
 end
 
 fun find-row(country :: String, index :: Number):
+doc: "code finds and returns the row with the matching country name"
   ask:
     | string-equal(flag-colors.row-n(index)["country"], country) then: flag-colors.row-n(index)
     | (index + 1) >= flag-colors.length() then: false
@@ -19,6 +20,7 @@ end
 
 
 fun create-nordic-flag(country :: String):
+doc: "code checks if find-row even returned a row. If it does it checks if it is a double or single cross flag and runs the corresponding code"
   country-row = find-row(string-to-lower(country), 0)
   ask: 
     | country-row == false then:
